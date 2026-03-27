@@ -4,6 +4,8 @@ fetch("https://fakestoreapi.com/products")
     .then(res => res.json())
     .then(data => {
         localStorage.setItem("allproducts", JSON.stringify(data));
+
+        showdata();
     });
 
 let allp = document.getElementById("allp");
@@ -69,5 +71,3 @@ function showdata(category) {
 }
 
 
-
-showdata();
