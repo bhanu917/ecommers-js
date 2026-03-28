@@ -70,4 +70,11 @@ function showdata(category) {
 
 }
 
+let cartpage = document.getElementById("cart-page");
+function cartdisp() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if (!cart) {
+
+    }
+}
 

@@ -63,7 +63,8 @@ footer {
     padding: 15px
 }
 
-ul.head-acc .btn-hover:hover {
+ul.head-acc .btn-hover:hover,
+.btn-hover:hover {
     background-color: #0e0c0c;
     color: white
 }
