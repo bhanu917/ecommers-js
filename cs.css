@@ -68,3 +68,19 @@ ul.head-acc .btn-hover:hover,
     background-color: #0e0c0c;
     color: white
 }
+
+.btn-hover {
+    color: #050506;
+    text-decoration: none;
+}
+
+.btn-hover:hover {
+    background-color: #050506;
+    /* Bootstrap primary blue */
+    color: #fff;
+    /* white text */
+    border-color: #0c0c0c;
+    /* border matches background */
+
+    /* remove underline on hover */
+}

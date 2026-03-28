@@ -73,8 +73,13 @@ function showdata(category) {
 let cartpage = document.getElementById("cart-page");
 function cartdisp() {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    if (!cart) {
+    let defaultcart = document.getElementById("default-cart");
 
+    if (!cart) {
+        defaultcart.style.display = "block";
+    }
+    else {
+        defaultcart.style.display = "none";
     }
 }
 
