@@ -74,7 +74,7 @@ function showdata(category) {
             updateCartLength();
 
             // show quick message
-            alert(product.title + " added to cart!");
+            // alert(product.title + " added to cart!");
         });
     });
 }
@@ -82,10 +82,13 @@ function showdata(category) {
 // ================== UPDATE CART LENGTH ==================
 function updateCartLength() {
     let carts = JSON.parse(localStorage.getItem("cartprods")) || [];
-    let prodlength = document.getElementById("prod-length");
-    if (prodlength) {
-        // show total quantity, not just distinct products
-        let totalQty = carts.reduce((sum, item) => sum + (item.qty || 1), 0);
-        prodlength.innerHTML = `${totalQty}`;
+    let prodlengthEls = document.getElementsByClassName("prod-length");
+
+    // calculate total quantity
+    let totalQty = carts.reduce((sum, item) => sum + (item.qty || 1), 0);
+
+    // update all elements with class "prod-length"
+    for (let el of prodlengthEls) {
+        el.innerHTML = `${totalQty}`;
     }
 }
