@@ -1,21 +1,3 @@
-// // ================== ADD TO CART ==================
-// function addToCart(product) {
-//     let carts = JSON.parse(localStorage.getItem("cartprods")) || [];
-
-//     // ✅ check only by id (must be unique per product)
-//     let existingIndex = carts.findIndex(item => item.id === product.id);
-
-//     if (existingIndex !== -1) {
-//         // product already exists → increase qty
-//         carts[existingIndex].qty = (carts[existingIndex].qty || 1) + 1;
-//     } else {
-//         // product not in cart → add new with qty = 1
-//         carts.push({ ...product, qty: 1 });
-//     }
-
-//     localStorage.setItem("cartprods", JSON.stringify(carts));
-//     cartdisp(); // refresh cart display immediately
-// }
 
 // ================== DISPLAY CART ==================
 function cartdisp() {
