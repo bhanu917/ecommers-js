@@ -87,7 +87,7 @@ function cartdisp() {
 
             <!-- SUBTOTAL -->
             <div style="width: 25%;" class="text-end">
-                <h6>${item.qty || 1} × $${item.price} = $${(item.qty || 1) * item.price}</h6>
+                <h6>${item.qty || 1} × $${item.price} = $${Math.round((item.qty || 1) * item.price).toFixed(2)}</h6>
             </div>
 
         </div>
@@ -103,7 +103,32 @@ function cartdisp() {
 
     let totalDiv = document.createElement("h4");
     totalDiv.className = "text-end me-3 mt-4";
-    totalDiv.innerText = "Total: ₹ " + total;
+    totalDiv.className = "text-end me-3 mt-4";
+
+    let shipping = 30;
+    let productsTotal = (Math.round(total * 100) / 100); // round to 2 decimals
+    let grandTotal = productsTotal + shipping;
+
+    totalDiv.innerHTML = `
+    <div class="d-flex justify-content-between">
+        <h5>Products (${carts.length})</h5> 
+        <div>$${productsTotal.toFixed(2)}</div>
+    </div>
+    <div class="d-flex justify-content-between">
+        <h4>Shipping</h4>
+        <h4>$${shipping.toFixed(2)}</h4>
+    </div>
+    <div class="d-flex justify-content-between">
+        <h5>Total Amount</h5> 
+        <div>$${grandTotal.toFixed(2)}</div>
+    </div>
+    <div class="text-center mt-3">
+        <button class="btn btn-success" onclick="goToCheckout()">Go to Checkout</button>
+    </div>
+
+
+`;
+
 
     totalprice.appendChild(totalDiv);
 }
