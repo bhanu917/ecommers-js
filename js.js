@@ -14,7 +14,7 @@ let womensp = document.getElementById("womensp");
 let jewerlyp = document.getElementById("jewerlyp");
 let electronicp = document.getElementById("electronicp");
 
-allp.addEventListener("click", () => showdata());
+allp.addEventListener("click", () => { showdata() });
 mensp.addEventListener("click", () => showdata("men's clothing"));
 womensp.addEventListener("click", () => showdata("women's clothing"));
 jewerlyp.addEventListener("click", () => showdata("jewelery"));
@@ -30,7 +30,7 @@ electronicp.addEventListener("click", () => showdata("electronics"));
 let prodcontainer = document.getElementById("prod-container");
 function showdata(category) {
     let allproducts = JSON.parse(localStorage.getItem("allproducts"));
-    console.log(allproducts);
+
     if (category) {
         allproducts = allproducts.filter(p => p.category === category);
     }
@@ -61,25 +61,11 @@ function showdata(category) {
         // select the button inside this card
         let cartbutt = cards.querySelector(".cart-butt");
         cartbutt.addEventListener("click", () => {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            cart.push(product.id);
-            localStorage.setItem("cart", JSON.stringify(cart));
-            console.log("Cart updated:", cart);
+            let cartprod = JSON.parse(localStorage.getItem("cartprods")) || [];
+            cartprod.push(product);
+            localStorage.setItem("cartprods", JSON.stringify(cartprod));
+            console.log("Cart updated:", cartprod);
         });
     });
 
 }
-
-let cartpage = document.getElementById("cart-page");
-function cartdisp() {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let defaultcart = document.getElementById("default-cart");
-
-    if (!cart) {
-        defaultcart.style.display = "block";
-    }
-    else {
-        defaultcart.style.display = "none";
-    }
-}
-
