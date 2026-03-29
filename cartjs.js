@@ -123,6 +123,7 @@ function increaseQty(index) {
 
     localStorage.setItem("cartprods", JSON.stringify(carts));
     cartdisp();
+    updateCartLength();
 }
 
 // ================== DECREASE ==================
@@ -137,7 +138,21 @@ function decreaseQty(index) {
 
     localStorage.setItem("cartprods", JSON.stringify(carts));
     cartdisp();
+    updateCartLength();
 }
 
 // ================== LOAD ==================
 cartdisp();
+function updateCartLength() {
+    let carts = JSON.parse(localStorage.getItem("cartprods")) || [];
+    let prodlengthEls = document.getElementsByClassName("prod-length");
+
+    // calculate total quantity
+    let totalQty = carts.reduce((sum, item) => sum + (item.qty || 1), 0);
+
+    // update all elements with class "prod-length"
+    for (let el of prodlengthEls) {
+        el.innerHTML = `${totalQty}`;
+    }
+}
+updateCartLength();  
