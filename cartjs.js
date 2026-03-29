@@ -1,103 +1,136 @@
-// Get container
-let cartpage = document.getElementById("cart-page");
+// // ================== ADD TO CART ==================
+// function addToCart(product) {
+//     let carts = JSON.parse(localStorage.getItem("cartprods")) || [];
 
-// Display cart
+//     // ✅ check only by id (must be unique per product)
+//     let existingIndex = carts.findIndex(item => item.id === product.id);
+
+//     if (existingIndex !== -1) {
+//         // product already exists → increase qty
+//         carts[existingIndex].qty = (carts[existingIndex].qty || 1) + 1;
+//     } else {
+//         // product not in cart → add new with qty = 1
+//         carts.push({ ...product, qty: 1 });
+//     }
+
+//     localStorage.setItem("cartprods", JSON.stringify(carts));
+//     cartdisp(); // refresh cart display immediately
+// }
+
+// ================== DISPLAY CART ==================
 function cartdisp() {
     let carts = JSON.parse(localStorage.getItem("cartprods")) || [];
+
+    // ✅ remove duplicates by id and sum qty
+    let uniqueCarts = [];
+
+    carts.forEach(item => {
+        let existingIndex = uniqueCarts.findIndex(prod => prod.id === item.id);
+        if (existingIndex !== -1) {
+            // if duplicate found, add quantities together
+            uniqueCarts[existingIndex].qty += (item.qty || 1);
+        } else {
+            uniqueCarts.push({ ...item, qty: item.qty || 1 });
+        }
+    });
+
+    // overwrite localStorage with cleaned cart
+    localStorage.setItem("cartprods", JSON.stringify(uniqueCarts));
+
+    // now use uniqueCarts instead of carts
+    carts = uniqueCarts;
+
+
     let defaultcart = document.getElementById("default-cart");
     let cartdispprod = document.getElementById("cartdispprod");
     let totalprice = document.getElementById("totalprice");
+    let cartpage = document.getElementById("cart-page");
 
-    // ✅ Clear correct containers
+    // ✅ clear UI
     cartdispprod.innerHTML = "";
     totalprice.innerHTML = "";
 
-    // Empty cart check
+    // empty cart
     if (carts.length === 0) {
         defaultcart.style.display = "block";
+        cartpage.style.display = "none";
         return;
     } else {
         defaultcart.style.display = "none";
+        cartpage.style.display = "block";
     }
 
-    // Show products
+    // ================== PRODUCTS ==================
     carts.forEach((item, index) => {
         let div = document.createElement("div");
-        div.className = "card mb-3 p-3";
+        div.className = "card mb-3 p-3 shadow-sm";
 
         div.innerHTML = `
-            <div class="row align-items-center text-center w-75 me-5 ms-4">
-                
-                <div class="col-md-2">
-                    <img src="${item.image}" width="100px" class="img-fluid" />
-                </div>
+        <div class="d-flex align-items-center justify-content-between w-100">
 
-                <div class="col-md-3">
-                    <h5>${item.title}</h5>
-                </div>
-
-                <div class="col-md-2">
-                    <p>₹ ${item.price}</p>
-                </div>
-
-                <div class="col-md-3">
-                    <button class="btn btn-sm btn-secondary" onclick="decreaseQty(${index})">-</button>
-                    <span class="mx-2 fw-bold">${item.qty || 1}</span>
-                    <button class="btn btn-sm btn-secondary" onclick="increaseQty(${index})">+</button>
-                </div>
-
-                <div class="col-md-2">
-                    <button class="btn btn-danger" onclick="removeItem(${index})">
-                        Remove
-                    </button>
-                </div>
+            <!-- IMAGE -->
+            <div style="width: 15%;">
+                <img src="${item.image}" class="img-fluid" style="max-width:120px;" />
             </div>
+
+            <!-- TITLE -->
+            <div style="width: 40%;margin-left:80px" class="text-start">
+                <h6>${item.title}</h6>
+            </div>
+
+            <!-- QTY -->
+            <div style="width: 20%;" class="d-flex justify-content-evenly align-items-center">
+                <button class="btn btn-sm btn-secondary" onclick="decreaseQty(${index})">-</button>
+                <span class="fw-bold">${item.qty || 1}</span>
+                <button class="btn btn-sm btn-secondary" onclick="increaseQty(${index})">+</button>
+            </div>
+
+            <!-- SUBTOTAL -->
+            <div style="width: 25%;" class="text-end">
+                <h6>${item.qty || 1} × $${item.price} = $${(item.qty || 1) * item.price}</h6>
+            </div>
+
+        </div>
         `;
 
         cartdispprod.appendChild(div);
     });
 
-    // Total price
+    // ================== TOTAL ==================
     let total = carts.reduce((sum, item) => {
         return sum + item.price * (item.qty || 1);
     }, 0);
 
     let totalDiv = document.createElement("h4");
-    totalDiv.className = "text-end me-5 mt-4";
+    totalDiv.className = "text-end me-3 mt-4";
     totalDiv.innerText = "Total: ₹ " + total;
 
     totalprice.appendChild(totalDiv);
 }
 
-// Increase quantity
+// ================== INCREASE ==================
 function increaseQty(index) {
     let carts = JSON.parse(localStorage.getItem("cartprods")) || [];
+
     carts[index].qty = (carts[index].qty || 1) + 1;
+
     localStorage.setItem("cartprods", JSON.stringify(carts));
     cartdisp();
 }
 
-// Decrease quantity
+// ================== DECREASE ==================
 function decreaseQty(index) {
     let carts = JSON.parse(localStorage.getItem("cartprods")) || [];
 
     if ((carts[index].qty || 1) > 1) {
         carts[index].qty -= 1;
     } else {
-        carts.splice(index, 1);
+        carts.splice(index, 1); // remove if qty = 0
     }
 
     localStorage.setItem("cartprods", JSON.stringify(carts));
     cartdisp();
 }
 
-// Remove item completely
-function removeItem(index) {
-    let carts = JSON.parse(localStorage.getItem("cartprods")) || [];
-    carts.splice(index, 1);
-    localStorage.setItem("cartprods", JSON.stringify(carts));
-    cartdisp();
-}
-
-// Call on load
+// ================== LOAD ==================
 cartdisp();
