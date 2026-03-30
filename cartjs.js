@@ -48,7 +48,7 @@ function cartdisp() {
         div.className = "card mb-3 p-3 shadow-sm";
 
         div.innerHTML = `
-        <div class="d-flex align-items-center justify-content-between w-100">
+        <div class="d-flex align-items-center justify-content-between ">
 
             <!-- IMAGE -->
             <div style="width: 15%;">
@@ -57,11 +57,12 @@ function cartdisp() {
 
             <!-- TITLE -->
             <div style="width: 40%;margin-left:80px" class="text-start">
-                <h6>${item.title}</h6>
+                <h6>${item.title.substring(0, 20)}</h6>
             </div>
 
             <!-- QTY -->
-            <div style="width: 20%;" class="d-flex justify-content-evenly align-items-center">
+            
+            <div style="width: 20%;" class="d-flex justify-content-evenly align-items-center" id="butmove">
                 <button class="btn btn-sm btn-secondary" onclick="decreaseQty(${index})">-</button>
                 <span class="fw-bold">${item.qty || 1}</span>
                 <button class="btn btn-sm btn-secondary" onclick="increaseQty(${index})">+</button>
@@ -101,7 +102,7 @@ function cartdisp() {
         <h4>$${shipping.toFixed(2)}</h4>
     </div>
     <div class="d-flex justify-content-between">
-        <h5>Total Amount</h5> 
+        <h5>Total</h5> 
         <div>$${grandTotal.toFixed(2)}</div>
     </div>
     <div class="text-center mt-3">

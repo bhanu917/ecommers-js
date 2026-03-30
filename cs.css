@@ -84,3 +84,32 @@ ul.head-acc .btn-hover:hover,
 
     /* remove underline on hover */
 }
+
+.cart-butt:hover {
+    background-color: #b06d6d;
+}
+
+@media (max-width:991px) {
+    .custom-width {
+        width: 100%;
+    }
+
+    .summt {
+
+        margin-top: 70px;
+    }
+}
+
+@media (min-width:992px) {
+    .custom-width {
+        width: 75%;
+    }
+}
+
+@media (max-width:440px) {
+    #butmove {
+        display: grid !important;
+        width: 100% !important;
+        /* override inline width */
+    }
+}
